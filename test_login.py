@@ -9,3 +9,4 @@ def test_default_user():
         login(driver)
     finally:
         driver.close()
+
