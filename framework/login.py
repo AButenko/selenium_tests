@@ -13,7 +13,7 @@ def enter_login_credentials(driver, username, password):
     name.send_keys(username)
     psswd = driver.find_element_by_name("password")
     psswd.send_keys(password)
-    return psswd
+    return name, psswd
 
 
 def login(driver, username="user@phptravels.com", password="demouser", login_page="http://www.phptravels.net/login"):
@@ -21,7 +21,7 @@ def login(driver, username="user@phptravels.com", password="demouser", login_pag
         driver.get(login_page)
     page_contain_assert(driver, title=["Login"], page_source=["Email", "Password", "Remember Me",
                                                     "Login", "Sign Up", "Forget Password"])
-    psswd = enter_login_credentials(driver, username, password)
+    name, psswd = enter_login_credentials(driver, username, password)
     with wait_for_page_load(driver):
         psswd.send_keys(Keys.RETURN)
     # wait = WebDriverWait(driver, 2)

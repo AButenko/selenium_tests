@@ -25,11 +25,17 @@ def test_login_any_user(user, psswd):
         enter_login_page(driver)
         login.page_contain_assert(driver, title=["Login"], page_source=["Email", "Password", "Remember Me",
                                                         "Login", "Sign Up", "Forget Password"])
-        psswd = login.enter_login_credentials(driver, user, psswd)
+        name, psswd = login.enter_login_credentials(driver, user, psswd)
         # with tools.wait_for_page_load(driver):
         psswd.send_keys(Keys.RETURN)
-        #TODO
-
+        invalid_input = driver.find_element_by_css_selector("input:invalid")
+        assert invalid_input.is_displayed()
+        if True: #TODO use regexp here to check if email is valid
+            assert invalid_input == name
+        else: # otherwise inwalid input if in password field
+            assert invalid_input == psswd
+        # assert not driver.execute_script("return document.getElementById(\"username\").validity.valid")  # javascript way to check the same
+        #TODO check error response from server
     finally:
         driver.close()
 
