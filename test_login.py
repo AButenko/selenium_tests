@@ -1,9 +1,19 @@
 # -*- coding: utf-8 -*-
+from django.conf import settings
 from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 
-from framework import login, tools
+from framework import login
 from selenium import webdriver
 import pytest
+from django.core.validators import validate_email, ValidationError
+
+
+@pytest.fixture(scope="module")
+def setup_django():
+    settings.configure()
 
 
 def enter_login_page(driver):
@@ -19,23 +29,29 @@ def test_login_default_user():
 
 
 @pytest.mark.parametrize("user, psswd",[('',''), ('user@phptravels.com', '')])
-def test_login_any_user(user, psswd):
+def test_login_any_user(setup_django, user, psswd):
     driver = webdriver.Chrome()
     try:
         enter_login_page(driver)
         login.page_contain_assert(driver, title=["Login"], page_source=["Email", "Password", "Remember Me",
                                                         "Login", "Sign Up", "Forget Password"])
-        name, psswd = login.enter_login_credentials(driver, user, psswd)
+        name, passwd = login.enter_login_credentials(driver, user, psswd)
         # with tools.wait_for_page_load(driver):
-        psswd.send_keys(Keys.RETURN)
+        passwd.send_keys(Keys.RETURN)
         invalid_input = driver.find_element_by_css_selector("input:invalid")
         assert invalid_input.is_displayed()
-        if True: #TODO use regexp here to check if email is valid
+        try:
+            validate_email(user)       # use regexp here to check if email is valid
+            assert invalid_input == passwd
+        except ValidationError:             # otherwise invalid input if in email field
             assert invalid_input == name
-        else: # otherwise inwalid input if in password field
-            assert invalid_input == psswd
         # assert not driver.execute_script("return document.getElementById(\"username\").validity.valid")  # javascript way to check the same
-        #TODO check error response from server
+
+        WebDriverWait(driver, 20).until(
+            EC.presence_of_element_located((By.XPATH, "//div[@class='resultlogin']/div[1]"))
+        )
+        driver.find_element_by_xpath("//div[@class='resultlogin']/div[1]").text == "Invalid Email or Password"
+
     finally:
         driver.close()
 
