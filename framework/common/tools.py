@@ -4,7 +4,7 @@ from contextlib import contextmanager
 from selenium.webdriver.support.expected_conditions import staleness_of
 from selenium.webdriver.support.wait import WebDriverWait
 
-PAGE_LOADING_TIMEOUT = 5
+PAGE_LOADING_TIMEOUT = 10
 
 class wait_for_page_load(object):
 
@@ -52,3 +52,15 @@ def page_contain_assert(driver, title=[], page_source=[]):
         assert i in driver.title
     for i in page_source:
         assert i in driver.page_source
+
+class DOMElement(object):
+
+    def __init__(self, xpath):
+        self.xpath = xpath
+
+    def click(self):
+        pass
+
+    def focus(self):
+        pass
+
