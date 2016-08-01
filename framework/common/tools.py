@@ -1,7 +1,7 @@
 import time
 from contextlib import contextmanager
 
-from selenium.webdriver.support.expected_conditions import staleness_of
+from selenium.webdriver.support.expected_conditions import staleness_of, visibility_of
 from selenium.webdriver.support.wait import WebDriverWait
 
 PAGE_LOADING_TIMEOUT = 10
@@ -45,6 +45,20 @@ def wait_for_element_load(driver, old_page, timeout=5):
     yield
     WebDriverWait(driver, timeout).until(
         staleness_of(old_page)
+    )
+
+@contextmanager
+def wait_for_element_visibility(driver, old_page, timeout=5):
+    '''
+    :param driver: selenium webdriver instance
+    :param old_page: func for finding old element
+    :param timeout: timeout for waiting
+    :return:
+    '''
+    # old_page = self.browser.find_element_by_tag_name('html')
+    yield
+    WebDriverWait(driver, timeout).until(
+        visibility_of(old_page)
     )
 
 def page_contain_assert(driver, title=[], page_source=[]):
