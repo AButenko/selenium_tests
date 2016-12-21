@@ -11,3 +11,4 @@ __pycache__/
 build/
 dist/
 framework.egg-info/
+.eggs/

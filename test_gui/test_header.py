@@ -5,6 +5,7 @@ from framework.gui.common.basepage import BasePage
 from framework.gui.common.fixtures import browser
 from framework.gui.common.tools import wait_for_page_load
 
+
 @pytest.mark.parametrize("header_el",[
     'logo',
     'hotels',
