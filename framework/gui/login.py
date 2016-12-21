@@ -3,7 +3,7 @@
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 
-from framework.common.tools import wait_for_page_load, page_contain_assert
+from framework.gui.common.tools import wait_for_page_load, page_contain_assert
 
 
 # from selenium.webdriver.support import expected_conditions as EC

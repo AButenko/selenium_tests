@@ -1,0 +1,9 @@
+This project was started as playing with Selenium WebDriver.
+
+But later it becomes my own Proof-Of-Concept how nice python testing framework has to look like.
+So, I hope, that this pet project will be refactored and then re-refactored, gathering new ideas and methods,
+pretending to become one day a nice cookbook for starting new test automation projects.
+
+I'm open to read and discuss all your comments - so, don't be shy, just open a bug for it.
+
+Python 3.5.2 or later version is needed.

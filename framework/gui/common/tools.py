@@ -37,7 +37,7 @@ class wait_for_page_load(object):
 def wait_for_element_load(driver, old_page, timeout=5):
     '''
     :param driver: selenium webdriver instance
-    :param old_page: func for finding old element
+    :param old_page: element we are waitng to be disappeared/refreshed
     :param timeout: timeout for waiting
     :return:
     '''
@@ -48,17 +48,17 @@ def wait_for_element_load(driver, old_page, timeout=5):
     )
 
 @contextmanager
-def wait_for_element_visibility(driver, old_page, timeout=5):
+def wait_for_element_visibility(driver, new_page, timeout=5):
     '''
     :param driver: selenium webdriver instance
-    :param old_page: func for finding old element
+    :param new_page: element we are waiting to be visible
     :param timeout: timeout for waiting
     :return:
     '''
     # old_page = self.browser.find_element_by_tag_name('html')
     yield
     WebDriverWait(driver, timeout).until(
-        visibility_of(old_page)
+        visibility_of(new_page)
     )
 
 def page_contain_assert(driver, title=[], page_source=[]):

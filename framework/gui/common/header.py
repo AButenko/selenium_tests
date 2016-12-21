@@ -1,28 +1,35 @@
+import functools
+
 from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver import ActionChains
 
-from framework.common.tools import wait_for_page_load, wait_for_element_visibility
-from locators import HeaderLocators
+from framework.gui.common.tools import wait_for_element_visibility
+from framework.gui.common.locators import HeaderLocators
 
 
 class ElementGroup(object):
 
-    def __init__(self, driver):
+    def __init__(self, driver, logger=None):
+        self.logger = logger
         self._driver = driver
 
     def __getattribute__(self, item):
-        if hasattr(self, "_base"):
-            item = object.__getattribute__(self, item)
-            def click():
-                actions = ActionChains(self._driver)
-                with wait_for_element_visibility(self._driver, item):
-                    actions.move_to_element(self._base).perform()
-                with wait_for_page_load(self._driver):
-                    actions.move_to_element(item).click().perform()
+        if not callable(super().__getattribute__(item)) and item != "_base" and hasattr(self, "_base"):
+            item = super().__getattribute__(item)
+            click = functools.partial(self.implicit_click, item=item)
             setattr(item, 'click', click)
             return item
         else:
-            return object.__getattribute__(self, item)
+            return super().__getattribute__(item)
+
+    def implicit_click(self, item):
+        actions = ActionChains(self._driver)
+        with wait_for_element_visibility(self._driver, item):
+            actions.move_to_element(self._base).click().perform()
+
+        # It is needed to clean ActionChains instance after each call of preform()
+        actions = ActionChains(self._driver)
+        actions.move_to_element(item).click().perform()
 
 
 def set_els_from_locators(cls, locators_list, driver):
@@ -32,7 +39,8 @@ def set_els_from_locators(cls, locators_list, driver):
 
 class PageHeader(object):
 
-    def __init__(self, driver):
+    def __init__(self, driver, logger=None):
+        self.logger = logger
         self._driver = driver
         self.logo = self._driver.find_element(*HeaderLocators.LOGO)
         set_els_from_locators(self, list(HeaderLocators.NAV), self._driver)
