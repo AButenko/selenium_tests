@@ -13,9 +13,9 @@ class HeaderLocators(object):
         class NAV(Enum):
             HOME        = (By.XPATH, "//div[@class='navbar']/div/a[@href='%s/']" % HOMEPAGE)
             HOTELS      = (By.XPATH, "//div[@class='navbar']/div/ul/li/a[@href='%s/hotels']" % HOMEPAGE)
-            TOURS       = (By.XPATH, "//div[@class='navbar']/div/ul/li/a[@href='%s/tours']" % HOMEPAGE)
+            # TOURS       = (By.XPATH, "//div[@class='navbar']/div/ul/li/a[@href='%s/tours']" % HOMEPAGE)
             FLIGHTS     = (By.XPATH, "//div[@class='navbar']/div/ul/li/a[@href='%s/flightsw']" % HOMEPAGE)
-            CARS        = (By.XPATH, "//div[@class='navbar']/div/ul/li/a[@href='%s/cars']" % HOMEPAGE)
+            # CARS        = (By.XPATH, "//div[@class='navbar']/div/ul/li/a[@href='%s/cars']" % HOMEPAGE)
             OFFERS      = (By.XPATH, "//div[@class='navbar']/div/ul/li/a[@href='%s/offers']" % HOMEPAGE)
             BLOG        = (By.XPATH, "//div[@class='navbar']/div/ul/li/a[@href='%s/blog']" % HOMEPAGE)
 
