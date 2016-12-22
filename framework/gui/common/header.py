@@ -9,8 +9,7 @@ from framework.gui.common.locators import HeaderLocators
 
 class ElementGroup(object):
 
-    def __init__(self, driver, logger=None):
-        self.logger = logger
+    def __init__(self, driver):
         self._driver = driver
 
     def __getattribute__(self, item):
@@ -39,8 +38,7 @@ def set_els_from_locators(cls, locators_list, driver):
 
 class PageHeader(object):
 
-    def __init__(self, driver, logger=None):
-        self.logger = logger
+    def __init__(self, driver):
         self._driver = driver
         self.logo = self._driver.find_element(*HeaderLocators.LOGO)
         set_els_from_locators(self, list(HeaderLocators.NAV), self._driver)

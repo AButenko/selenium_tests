@@ -8,6 +8,8 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 
+from framework.fixtures import logger
+
 from framework.gui import login
 
 def enter_login_page(driver):
@@ -23,7 +25,7 @@ def test_login_default_user():
 
 
 @pytest.mark.parametrize("user, psswd",[('',''), ('user@phptravels.com', '')])
-def test_login_any_user(user, psswd):
+def test_login_any_user(logger, user, psswd):
     driver = webdriver.Chrome()
     try:
         enter_login_page(driver)
@@ -52,7 +54,7 @@ def test_login_any_user(user, psswd):
         driver.close()
 
 
-def test_logout_default_user():
+def test_logout_default_user(logger):
     driver = webdriver.Chrome()
     try:
         login.logout(driver)

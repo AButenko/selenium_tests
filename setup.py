@@ -1,5 +1,6 @@
-import os
+#!/usr/bin/env python
 
+import os
 import time
 from setuptools import find_packages, setup
 

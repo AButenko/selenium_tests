@@ -3,7 +3,6 @@ from framework.gui.common.header import PageHeader
 
 class BasePage(object):
 
-    def __init__(self, driver, logger=None):
-        self.logger = logger
+    def __init__(self, driver):
         self._driver = driver
-        self.header = PageHeader(driver, logger)
+        self.header = PageHeader(driver)
